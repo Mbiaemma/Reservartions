@@ -10,6 +10,28 @@ A FAIRE :
 """
 from rest_framework import serializers
 
-from .models import Reservation, Salle  # noqa: F401  (a utiliser)
+from .models import Reservation, Salle
 
-# TODO : votre code ici
+from .permissions import IsOwnerOrReadOnly
+
+class SalleSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Salle
+        fields = ['nom', 'capacite', 'batiment']
+
+class ReservationSerializer(serializers.ModelSerializer):
+    class Meta:
+        model = Reservation
+        fields = ('salle', 'utilisateur', 'debut', 'fin', 'motif', 'statut', 'cree_le')
+        read_only_fields = ['utilisateur']
+        permission_classes = [IsOwnerOrReadOnly]
+
+    def validate(self, data):
+        if data['debut'] > data['fin']:
+            raise serializers.ValidationError(
+                "La date de fin de la reservation n’est pas strictement postérieure à celle de début"
+            )
+        elif data['fin'] > data['debut']:
+            raise serializers.ValidationError({'fin': 'La valeur de la salle'})
+        return data
+

@@ -7,5 +7,15 @@ A FAIRE :
 from rest_framework import viewsets  # noqa: F401  (a utiliser)
 
 from .models import Reservation, Salle  # noqa: F401  (a utiliser)
+from .serializers import ReservationSerializer
 
-# TODO : votre code ici
+class SalleViewSet(viewsets.ModelViewSet):
+    queryset = Salle.objects.all()
+    serializer_class = ReservationSerializer
+
+class ReservationViewSet(viewsets.ModelViewSet):
+    queryset = Reservation.objects.all()
+    serializer_class = ReservationSerializer
+
+    def perform_create(self, serializer):
+        serializer.save(utilisateur=self.request.user)
