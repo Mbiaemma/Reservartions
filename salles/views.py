@@ -4,6 +4,7 @@ A FAIRE :
   - SalleViewSet (ModelViewSet), avec l'action `occupation` (tache 5)
   - ReservationViewSet (ModelViewSet), avec perform_create (tache 3)
 """
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework.decorators import action
 from rest_framework import viewsets  # noqa: F401  (a utiliser)
 
@@ -22,16 +23,8 @@ class SalleViewSet(viewsets.ModelViewSet):
 class ReservationViewSet(viewsets.ModelViewSet):
     queryset = Reservation.objects.all()
     serializer_class = ReservationSerializer
+    filter_backends = [DjangoFilterBackend]
+    filterset_fields = ['salle', 'debut']
 
     def perform_create(self, serializer):
         serializer.save(utilisateur=self.request.user)
-
-    filterset_fields = {
-        "salle": ["exact"],
-        "debut": ["date"],
-    }
-
-    def filter_queryset(self, queryset):
-        if self.action == "list":
-            return super().filter_queryset(queryset)
-        return queryset
