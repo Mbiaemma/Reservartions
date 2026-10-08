@@ -32,7 +32,5 @@ class ReservationSerializer(serializers.ModelSerializer):
             raise serializers.ValidationError(
                 "La date de fin de la reservation n’est pas strictement postérieure à celle de début"
             )
-        elif data['fin'] > data['debut']:
-            raise serializers.ValidationError({'fin': 'La valeur de la salle'})
         return data
 
