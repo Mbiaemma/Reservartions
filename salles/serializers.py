@@ -9,7 +9,7 @@ A FAIRE :
         de la meme salle
 """
 from rest_framework import serializers
-from rest_framework.permissions import IsAuthenticated
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 from .models import Reservation, Salle
 
@@ -25,7 +25,7 @@ class ReservationSerializer(serializers.ModelSerializer):
         model = Reservation
         fields = ('salle', 'utilisateur', 'debut', 'fin', 'motif', 'statut', 'cree_le')
         read_only_fields = ['utilisateur']
-        permission_classes = [IsOwnerOrReadOnly, IsAuthenticated]
+        permission_classes = [IsOwnerOrReadOnly, IsAuthenticatedOrReadOnly]
 
     def validate(self, data):
         if data['debut'] > data['fin']:

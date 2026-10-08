@@ -25,3 +25,13 @@ class ReservationViewSet(viewsets.ModelViewSet):
 
     def perform_create(self, serializer):
         serializer.save(utilisateur=self.request.user)
+
+    filterset_fields = {
+        "salle": ["exact"],
+        "debut": ["date"],
+    }
+
+    def filter_queryset(self, queryset):
+        if self.action == "list":
+            return super().filter_queryset(queryset)
+        return queryset

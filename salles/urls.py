@@ -12,8 +12,8 @@ from .views import SalleViewSet, ReservationViewSet
 
 router = routers.DefaultRouter()
 
-router.register(r'salles', SalleViewSet)
-router.register(r'reservations', ReservationViewSet)
+router.register(r'salles', SalleViewSet, basename='salles')
+router.register(r'reservations', ReservationViewSet, basename='reservations')
 
 urlpatterns = [
     path('', include(router.urls)),
