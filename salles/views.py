@@ -8,11 +8,12 @@ from rest_framework.decorators import action
 from rest_framework import viewsets  # noqa: F401  (a utiliser)
 
 from .models import Reservation, Salle  # noqa: F401  (a utiliser)
-from .serializers import ReservationSerializer
+from .serializers import ReservationSerializer, SalleSerializer
+
 
 class SalleViewSet(viewsets.ModelViewSet):
     queryset = Salle.objects.all()
-    serializer_class = ReservationSerializer
+    serializer_class = SalleSerializer
 
     @action(detail=True, methods=['get'])
     def occupation(self, request, salle_id=None):
